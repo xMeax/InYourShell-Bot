@@ -55,5 +55,33 @@ module.exports = {
         config.prefixCmd = param;
 
         msg.channel.send("Le nouveau préfixe est : " + param);
+    },
+
+    name:'lock',
+    description:'Cette commande ferme un channel.',
+    lockChannel: function(msg)
+    {
+        const channel = msg.channel;
+        
+        channel.updateOverwrite(
+            channel.guild.roles.everyone, 
+            { VIEW_CHANNEL: true, SEND_MESSAGES: false }
+        );
+        
+        msg.channel.send("Le salon a été bloqué.");
+    },
+
+    name:'unlock',
+    description:'Cette commande ouvre un channel.',
+    unlockChannel: function(msg)
+    {
+        const channel = msg.channel;
+        
+        channel.updateOverwrite(
+            channel.guild.roles.everyone, 
+            { VIEW_CHANNEL: true, SEND_MESSAGES: true }
+        );
+        
+        msg.channel.send("Le salon a été réouvert.");
     }
 }

@@ -6,7 +6,7 @@ const moderation = require('./commands/moderation');
 //Toutes les actions à faire quand le bot se connecte
 client.on("ready", function () {
     console.log("Mon BOT est Connecté");
-    client.user.setActivity(".gg/infoschool", {type:'WATCHING'});
+    client.user.setActivity(".gg/inyourshell", {type:'WATCHING'});
 })
 
 function invalidCommand(msg)
@@ -46,6 +46,14 @@ client.on("message", msg => {
         case "prefix":
             if(!msg.member.hasPermission("ADMINISTRATOR")) return invalidCommand(msg)
             moderation.newPrefix(msg);
+            break;
+        case "lock":
+            if(!msg.member.hasPermission("MANAGE_CHANNELS")) return invalidCommand(msg)
+            moderation.lockChannel(msg);
+            break;
+        case "unlock":
+            if(!msg.member.hasPermission("MANAGE_CHANNELS")) return invalidCommand(msg)
+            moderation.unlockChannel(msg);
             break;
         default:
             msg.channel.send("Taper !help pour la liste des commandes !");
