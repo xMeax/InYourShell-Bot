@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
 const moderation = require('./commands/moderation');
+const roles = require('./commands/roles.js');
 
 //Toutes les actions à faire quand le bot se connecte
 client.on("ready", function () {
@@ -22,8 +23,6 @@ client.on("message", msg => {
     const args = msg.content.slice(config.prefixCmd.length).trim().split(/ +/);
     // Extraction commande
     const command = args.shift().toLowerCase();
-    // Extraction paramètres
-    //const param = msg.content.split(" ").slice(2);
 
     //Commandes utilisateurs
     switch(command)
@@ -57,7 +56,11 @@ client.on("message", msg => {
             break;
         case "addrole":
             if(!msg.member.hasPermission("MANAGE_ROLES")) return invalidCommand(msg)
-            moderation.addRole(msg);
+            roles.addRole(msg);
+            break;
+        case "removerole":
+            if(!msg.member.hasPermission("MANAGE_ROLES")) return invalidCommand(msg)
+            roles.removeRole(msg);
             break;
         default:
             msg.channel.send("Taper !help pour la liste des commandes !");
