@@ -55,6 +55,10 @@ client.on("message", msg => {
             if(!msg.member.hasPermission("MANAGE_CHANNELS")) return invalidCommand(msg)
             moderation.unlockChannel(msg);
             break;
+        case "addrole":
+            if(!msg.member.hasPermission("MANAGE_ROLES")) return invalidCommand(msg)
+            moderation.addRole(msg);
+            break;
         default:
             msg.channel.send("Taper !help pour la liste des commandes !");
             break;

@@ -83,5 +83,34 @@ module.exports = {
         );
         
         msg.channel.send("Le salon a été réouvert.");
-    }
+    },
+
+    name:'addRole',
+    description:'Cette commande ajoute un rôle à un utilisateur.',
+    addRole: function(msg)
+    {
+        const member = msg.mentions.users.first();
+        const target = msg.guild.members.cache.get(member.id);
+        const reason = msg.content.split(" ").slice(2).join(' ');
+        const role = msg.mentions.roles.first();    
+        const addedRole = msg.guild.roles.find("name", role);
+
+        if(member){
+            if(reason){
+                if(target.roles.has(role)){
+                    return msg.chanel.send("Le membre a déjà le rôle.");
+                }else{
+                    //On donne le rôle ici
+                    target.roles.add(addedRole); 
+                }
+            }else{
+                return msg.channel.send("Aucun rôle n'a été spécifié.");
+            }
+
+            target = msg.mentions.users.first().username;    
+            msg.channel.send("L'Utilisateur " + target + " a bien reçu le rôle suivant : " + reason);           
+        }else{
+            msg.channel.send("Impossible d'ajouter un rôle à cet utilisateur !");
+        }
+    },
 }
