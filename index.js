@@ -3,6 +3,8 @@ const client = new Discord.Client();
 const config = require('./config.json');
 const moderation = require('./commands/moderation');
 const roles = require('./commands/roles.js');
+const logs = require('./commands/logs.js');
+const security = require('./commands/security.js');
 
 //Toutes les actions à faire quand le bot se connecte
 client.on("ready", function () {
@@ -14,6 +16,7 @@ function invalidCommand(msg)
 {
     msg.channel.send("Vous n'avez pas la permission d'utiliser cette commande")
 }
+
 // Répondre à un message
 client.on("message", msg => {
     // Si le message n'est pas préfixé il est ignoré
@@ -62,6 +65,10 @@ client.on("message", msg => {
             if(!msg.member.hasPermission("MANAGE_ROLES")) return invalidCommand(msg)
             roles.removeRole(msg);
             break;
+        case "set":
+            if(!msg.member.hasPermission("ADMINISTRATOR")) return invalidCommand(msg)
+            logs.setTextEventsLogChannel(msg);
+            break;
         default:
             msg.channel.send("Taper !help pour la liste des commandes !");
             break;
@@ -69,3 +76,5 @@ client.on("message", msg => {
 })
 
 client.login(config.token);
+
+//FAIRE UN PUTAIN DE TOOL A LA LINUX WOULA

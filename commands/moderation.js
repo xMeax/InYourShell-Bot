@@ -12,7 +12,7 @@ module.exports = {
             target.kick(reason);
 
             target = msg.mentions.users.first().username;    
-            msg.channel.send("L'Utilisateur " + target + " a bien été kick pour le motif suivant : " + reason);
+            msg.channel.send("L'utilisateur " + target + " a bien été kick pour le motif suivant : " + reason);
         }else{
             msg.channel.send("Impossible de kick cet utilisateur !");
         }
@@ -29,7 +29,7 @@ module.exports = {
             target.ban({reason});
 
             target = member.username;    
-            msg.channel.send("L'Utilisateur " + target + " a bien été ban pour le motif suivant : " + reason);
+            msg.channel.send("L'utilisateur " + target + " a bien été ban pour le motif suivant : " + reason);
         }else{
             msg.channel.send("Impossible de ban cet utilisateur");
         }
@@ -48,9 +48,9 @@ module.exports = {
 
     name:'prefix',
     description:'Cette commande change le préfix du bot !',
+    //A continuer -> sauvegarder le préfixe
     newPrefix: function(msg)
     {
-        
         const param = msg.content.split(" ").slice(1);
         config.prefixCmd = param;
 
@@ -68,7 +68,7 @@ module.exports = {
             { VIEW_CHANNEL: true, SEND_MESSAGES: false }
         );
         
-        msg.channel.send("Le salon a été bloqué.");
+        msg.channel.send("Le salon a été bloquay.");
     },
 
     name:'unlock',
