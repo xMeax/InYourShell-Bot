@@ -65,15 +65,17 @@ client.on("message", msg => {
             if(!msg.member.hasPermission("MANAGE_ROLES")) return invalidCommand(msg)
             roles.removeRole(msg);
             break;
-        case "set":
+        case "fullsetup":
             if(!msg.member.hasPermission("ADMINISTRATOR")) return invalidCommand(msg)
-            logs.setTextEventsLogChannel(msg);
+            logs.fullSetUp(msg);
             break;
         default:
             msg.channel.send("Taper !help pour la liste des commandes !");
             break;
     }
 })
+
+client.on
 
 client.login(config.token);
 

@@ -25,6 +25,4 @@ module.exports = {
         //A continuer -> sauvegarde des warns
         msg.channel.send('L\'utilisateur ' + author.username + ' a pris un avertissement.');
     },
-
-
 }
