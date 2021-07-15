@@ -4,7 +4,6 @@ const client = new Discord.Client({
         "GUILD_MEMBER"
     ]
 });
-
 const config = require('./config.json');
 const moderation = require('./commands/moderation');
 const roles = require('./commands/roles.js');
@@ -19,6 +18,8 @@ client.on("ready", function () {
 
 // Gestion des évènements
 events.welcome(client);
+events.leave(client);
+events.eventMessage(client);
 
 // Répondre à un message
 client.on("message", msg => {
@@ -77,8 +78,6 @@ client.on("message", msg => {
             break;
     }
 })
-
-client.on
 
 client.login(config.token);
 
