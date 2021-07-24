@@ -6,7 +6,8 @@ module.exports = {
     addRole: function(msg)
     {
         const member = msg.mentions.users.first();
-        const newRole = msg.mentions.roles.first();    
+        const reason = msg.content.split(" ").slice(2).join(' ');
+        const newRole = msg.guild.roles.cache.find(role => role.name === reason);
 
         if(member)
         {
@@ -14,7 +15,7 @@ module.exports = {
             if(newRole)
             {
                 target.roles.add(newRole);
-                msg.channel.send("Le rôle " + newRole.name + " a bien été ajoutay à l'utilisateur " + member.username);
+                msg.channel.send(`Le rôle ${newRole.name} a bien été ajoutay à l'utilisateur ${member}`);
             }else{
                 msg.channel.send("Veuillez spécifiay un rôle existant.")
             }
@@ -28,15 +29,16 @@ module.exports = {
     removeRole: function(msg)
     {
         const member = msg.mentions.users.first();
-        const newRole = msg.mentions.roles.first();    
+        const reason = msg.content.split(" ").slice(2).join(' ');
+        const oldRole = msg.guild.roles.cache.find(role => role.name === reason);
 
         if(member)
         {
             const target = msg.guild.members.cache.get(member.id);
-            if(newRole)
+            if(oldRole)
             {
-                target.roles.remove(newRole);
-                msg.channel.send("Le rôle " + newRole.name + " a bien été retiray à l'utilisateur " + member.username);
+                target.roles.remove(oldRole);
+                msg.channel.send(`Le rôle ${oldRole.name} a bien été ajoutay à l'utilisateur ${member}`);
             }else{
                 msg.channel.send("Veuillez spécifiay un rôle existant.")
             }
