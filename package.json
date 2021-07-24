@@ -1,27 +1,26 @@
 {
   "name": "informatic-school",
-  "version": "1.0.0",
-  "description": "Bot discord - Informatic School",
+  "version": "1.1.0",
+  "description": "Bot discord - InYourShell",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ndanel/Informatic-School.git"
+    "url": "git+https://github.com/xMeax/InYourShell-Bot"
   },
   "keywords": [
     "discord",
     "bot",
-    "Informatic",
-    "School"
+    "InYourShell"
   ],
-  "author": "Informatic School",
-  "license": "ISC",
+  "author": "IYS Meax",
+  "license": "IYS",
   "bugs": {
-    "url": "https://github.com/ndanel/Informatic-School/issues"
+    "url": "https://github.com/xMeax/InYourShell-Bot/issues"
   },
-  "homepage": "https://github.com/ndanel/Informatic-School#readme",
+  "homepage": "https://github.com/xMeax/InYourShell-Bot/blob/master/README.md",
   "dependencies": {
     "discord.js": "^12.5.3"
   }
