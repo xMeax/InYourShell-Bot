@@ -8,8 +8,10 @@ const config = require('./config.json');
 const moderation = require('./commands/moderation');
 const roles = require('./commands/roles.js');
 const logs = require('./commands/logs.js');
-const security = require('./commands/security.js');
+//const security = require('./commands/security.js');
 const events = require('./commands/events.js');
+//const embed = require('./static/embed.js');
+
 //Toutes les actions à faire quand le bot se connecte
 client.on("ready", function () {
     console.log("Mon BOT est Connecté");
@@ -17,9 +19,9 @@ client.on("ready", function () {
 })
 
 // Gestion des évènements
-events.welcome(client);
-events.leave(client);
-events.eventMessage(client);
+events.welcome(client,Discord);
+events.leave(client,Discord);
+events.eventMessage(client,Discord); 
 
 // Répondre à un message
 client.on("message", msg => {

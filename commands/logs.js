@@ -11,7 +11,7 @@ module.exports = {
             VIEW_CHANNEL: false,
             SEND_MESSAGES: false
         });
-        category.updateOverwrite(await msg.guild.roles.fetch('842446588034154547'), {
+        category.updateOverwrite(await msg.guild.roles.fetch(category.id), {
             VIEW_CHANNEL: true,
             SEND_MESSAGES: true
         });
