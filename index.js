@@ -75,6 +75,9 @@ client.on("message", msg => {
             if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
             logs.fullSetUp(msg);
             break;
+        case "server":
+            logs.serverInfos(Discord,msg);
+            break;
         default:
             msg.channel.send("Taper !help pour la liste des commandes !");
             break;

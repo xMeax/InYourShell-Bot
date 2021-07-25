@@ -1,6 +1,6 @@
 module.exports = {
     name:'Embed logsChat',
-    description:'Crée des messages embed, nécessite embed.embed(Discord,author,content,logsChat);',
+    description:'Crée des messages embed pour les logs de chat',
     embed: function(Discord, author, content, logsChat)
     {
         const embed = new Discord.MessageEmbed()
@@ -13,7 +13,7 @@ module.exports = {
     },
 
     name:"Embed welcome/leave",
-    description:'Crée des messages embed, nécessite ..',
+    description:'Crée des messages embed quand les membres rejoignent ou quittent le serveur',
     embedWelcLeav: function(Discord, content, color, logsChat)
     {
         const embed = new Discord.MessageEmbed()
@@ -22,5 +22,5 @@ module.exports = {
             .setTimestamp()
 
             logsChat.send(embed)
-    }
+    },
 }

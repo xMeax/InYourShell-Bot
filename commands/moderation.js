@@ -24,12 +24,17 @@ module.exports = {
     {
         const member = msg.mentions.users.first();
         if(member){
-            let target = msg.guild.members.cache.get(member.id);
-            const reason = msg.content.split(" ").slice(2).join(' ');
-            target.ban({reason});
-
-            target = member.username;    
-            msg.channel.send(`L'utilisateur ${target} a bien été ban pour le motif suivant : ${reason}`);
+            if (msg.member.roles.highest.comparePositionTo(member.roles.highest) < 1 && msg.author.id !== msg.guild.ownerID)
+            {
+                let target = msg.guild.members.cache.get(member.id);
+                const reason = msg.content.split(" ").slice(2).join(' ') || "Aucu   ne raison spécifiée";
+                target.ban({reason});
+                
+                target = member.username;    
+                msg.channel.send(`L'utilisateur ${target} a bien été ban pour le motif suivant : ${reason}`);
+            }else{
+                msg.channel.send(`Vous ne pouvez pas ban un utilisateur plus gradé que vous.`);
+            }
         }else{
             msg.channel.send("Impossible de ban cet utilisateur");
         }
