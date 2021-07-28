@@ -7,13 +7,13 @@ Différentes catégories :
 -Technique
 -Staff
 */
-    name:'Setup ticket',
+    name:'setupticket',
     description:'Setup le message de création de tickets',
     setupTicket: async function(Discord,msg)
     {
-        const ticket = '📄・Tickets';
-        const category = msg.guild.channels.find(category => category.name === '📂| Support');
-        const ticketsChannel = msg.guild.channels.find(channel => channel.name === ticket);
+        const ticket = '📄・tickets';
+        let category = msg.guild.channels.cache.find(category => category.name === '📂| Support');
+        let ticketsChannel = msg.guild.channels.cache.find(channel => channel.name === ticket);
         
         if(!category && !ticketsChannel)
         {
@@ -36,15 +36,23 @@ Différentes catégories :
             ticketsChannel.setParent(category);
 
             msg.channel.send(`${category.name} a bien été créé et ${ticketsChannel.name} a été réaffilié à ${category.name}`);
+        }else{
+            msg.channel.send(`${category} et ${ticketsChannel} existent déjà.`);
         }
-    
-        moderation.lockChannel(msg);
+        
+        category = await msg.guild.channels.cache.find(category => category.name === '📂| Support');
+        ticketsChannel = await msg.guild.channels.cache.find(channel => channel.name === ticket);
+        
+        ticketsChannel.updateOverwrite(
+            channel.guild.roles.everyone, 
+            { VIEW_CHANNEL: true, SEND_MESSAGES: false }
+        );
         
         const embed = new Discord.MessageEmbed()
             .setColor('#0099ff')    
             .setTitle('Tickets')
             .setDescription('Veuillez cliquer sur l\'émoji pour créer un ticket, cela créera un nouveau channel.\nVeuillez ensuite suivre les instructions')
 
-        msg.channel.send(embed);
+        ticketsChannel.send(embed);
     }
 }
