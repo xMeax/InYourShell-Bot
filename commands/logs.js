@@ -6,7 +6,7 @@ module.exports = {
     fullSetUp: async function(msg)
     {
         const category = await msg.guild.channels.create('Administration', { type:'category' });
-
+        
         category.updateOverwrite(await msg.guild.id, {
             VIEW_CHANNEL: false,
             SEND_MESSAGES: false

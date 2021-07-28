@@ -27,7 +27,7 @@ module.exports = {
             if (msg.member.roles.highest.comparePositionTo(member.roles.highest) < 1 && msg.author.id !== msg.guild.ownerID)
             {
                 let target = msg.guild.members.cache.get(member.id);
-                const reason = msg.content.split(" ").slice(2).join(' ') || "Aucu   ne raison spécifiée";
+                const reason = msg.content.split(" ").slice(2).join(' ') || "Aucune raison spécifiée";
                 target.ban({reason});
                 
                 target = member.username;    
@@ -66,7 +66,7 @@ module.exports = {
     description:'Cette commande ferme un channel.',
     lockChannel: function(msg)
     {
-        const channel = msg.channel;
+        const channel = msg.mentions.channels.first() || msg.channel;
         
         channel.updateOverwrite(
             channel.guild.roles.everyone, 
@@ -80,7 +80,7 @@ module.exports = {
     description:'Cette commande ouvre un channel.',
     unlockChannel: function(msg)
     {
-        const channel = msg.channel;
+        const channel = msg.mentions.channels.first() || msg.channel;
         
         channel.updateOverwrite(
             channel.guild.roles.everyone, 

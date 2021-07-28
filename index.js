@@ -10,7 +10,7 @@ const roles = require('./commands/roles.js');
 const logs = require('./commands/logs.js');
 //const security = require('./commands/security.js');
 const events = require('./commands/events.js');
-//const embed = require('./static/embed.js');
+const tickets = require('./commands/tickets.js');
 
 //Toutes les actions à faire quand le bot se connecte
 client.on("ready", function () {
@@ -77,6 +77,9 @@ client.on("message", msg => {
             break;
         case "server":
             logs.serverInfos(Discord,msg);
+            break;
+        case "setupticket":
+            tickets.setupTicket(Discord,msg);
             break;
         default:
             msg.channel.send("Taper !help pour la liste des commandes !");
