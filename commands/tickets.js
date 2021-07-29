@@ -1,3 +1,5 @@
+const security = require('./security.js');
+
 module.exports = {
 /*
 Différentes catégories :
@@ -10,7 +12,7 @@ Différentes catégories :
     setupTicket: async function(Discord,msg)
     {
         const ticket = '📄・tickets';
-        const category = msg.guild.channels.cache.find(category => category.name === '📂| Support') || await msg.guild.channels.create('📂| Support', { type:'category' });
+        const category = msg.guild.channels.cache.find(category => category.name === '📂| Support') || await x.guild.channels.create('📂| Support', { type:'category' });
         const ticketsChannel = msg.guild.channels.cache.find(channel => channel.name === ticket) || await msg.guild.channels.create(ticket, { 
             type:'text',
             parent:category 
@@ -35,5 +37,43 @@ Différentes catégories :
         createTicket.react('💥');
         createTicket.react('❗');
         createTicket.react('🔴');
-    }
+    },
+
+    name:'React',
+    description:'Création des channels pour les tickets correspondant',
+    reactTickets: function(client,Discord)
+    {
+        client.on("messageReactionAdd", async (react, user) => {
+            if(!react.message.channel === '📄・tickets') return
+                const category = react.message.guild.channels.cache.find(category => category.name === '📂| Support');
+            
+                if(!category) this.setupTicket(Discord,user)
+
+                switch(`${react.emoji}`)
+                {
+                    case "💥":
+                        const channel = await react.message.guild.channels.create("membre-" + user.username, { 
+                            type:'text',
+                            parent:category
+                        });
+                        security.permsStaff(channel,'Administrateur');
+                        security.permsStaff(channel,'everyone');
+                        security.permsStaff(channel,'1' + user.username);
+                        /*security.permsStaff(channel,'💻 ⥽ Administrateur');
+                        security.permsStaff(channel,'📘 ⥽ S-Modérateur');
+                        security.permsStaff(channel,'📘 ⥽ Modérateur');
+                        security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
+                        break;
+                    case "❗":
+                        console.log('Ticket problème technique');
+                        break;
+                    case "🔴":
+                        console.log('Ticket problème avec un staff');
+                        break;
+                    default:
+                        console.log('Mauvais choix de ticket');
+                        return;
+                }
+        })
+    },
 }

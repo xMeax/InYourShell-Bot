@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client({
     partials: [
-        "GUILD_MEMBER"
+        "GUILD_MEMBER", "MESSAGE", "CHANNEL", "REACTION"
     ]
 });
 const config = require('./config.json');
@@ -22,6 +22,7 @@ client.on("ready", function () {
 events.welcome(client,Discord);
 events.leave(client,Discord);
 events.eventMessage(client,Discord); 
+tickets.reactTickets(client,Discord);
 
 // Répondre à un message
 client.on("message", msg => {

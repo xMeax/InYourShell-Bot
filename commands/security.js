@@ -25,4 +25,28 @@ module.exports = {
         //A continuer -> sauvegarde des warns
         msg.channel.send('L\'utilisateur ' + author.username + ' a pris un avertissement.');
     },
+
+    name:'Perm staff',
+    description:'Met les perms à toute l\'équipe du staff',
+    permsStaff: function(channel,roleStaff)
+    {
+        if(roleStaff === 'everyone') 
+        {
+            channel.updateOverwrite(
+                channel.guild.roles.everyone, 
+                { VIEW_CHANNEL: false, SEND_MESSAGES: false }
+            )
+        }else if(roleStaff.match('1')){
+            const user = roleStaff.slice(1);
+            channel.updateOverwrite(
+                channel.guild.users.get('name',user),
+                { VIEW_CHANNEL: true, SEND_MESSAGES: true }
+            );
+        }else{
+            channel.updateOverwrite(
+                channel.guild.roles.cache.find(role => role.name === roleStaff),
+                { VIEW_CHANNEL: true, SEND_MESSAGES: true }
+            );
+        }
+    },
 }
