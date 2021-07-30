@@ -41,65 +41,73 @@ Différentes catégories :
 
     name:'React',
     description:'Création des channels pour les tickets correspondant',
-    reactTickets: function(client,Discord)
+    reactTickets: async function(client,Discord)
     {
         client.on("messageReactionAdd", async (react, user) => {
-            if(!react.message.channel === '📄・tickets') return
+            if(react.message.channel.name === '📄・tickets')
+            {
                 const category = react.message.guild.channels.cache.find(category => category.name === '📂| Support');
-            
+                const username = user.username.toLowerCase();
+
                 if(!category) this.setupTicket(Discord,user)
 
-                switch(`${react.emoji}`)
+                if(await !react.message.guild.channels.cache.find(channel => channel.name === "membre-" + username)
+                && await !react.message.guild.channels.cache.find(channel => channel.name === "tech-" + username)
+                && await !react.message.guild.channels.cache.find(channel => channel.name === "staff-" + username))
                 {
-                    case "💥":
-                        const channelMembre = await react.message.guild.channels.create("membre-" + user.username, { 
-                            type:'text',
-                            parent:category
-                        });
-                        security.permsStaff(channelMembre,'Administrateur',user);
-                        security.permsStaff(channelMembre,'everyone',user);
-                        security.permsStaff(channelMembre,'1' + user.username,user);
-                        /*security.permsStaff(channel,'💻 ⥽ Administrateur');
-                        security.permsStaff(channel,'📘 ⥽ S-Modérateur');
-                        security.permsStaff(channel,'📘 ⥽ Modérateur');
-                        security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
+                    switch(`${react.emoji}`)
+                    {
+                        case "💥":
+                            const channelMembre = await react.message.guild.channels.create("membre-" + username, { 
+                                type:'text',
+                                parent:category
+                            });
+                            security.permsStaff(channelMembre,'Administrateur',user);
+                            security.permsStaff(channelMembre,'everyone',user);
+                            security.permsStaff(channelMembre,'1' + user.username,user);
+                            /*security.permsStaff(channel,'💻 ⥽ Administrateur');
+                            security.permsStaff(channel,'📘 ⥽ S-Modérateur');
+                            security.permsStaff(channel,'📘 ⥽ Modérateur');
+                            security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
 
-                        channelMembre.send(`${user} Votre ticket a bien été créé.\nMotif : Problème avec un membre.`);
-                        break;
-                    case "❗":
-                        const channelTech = await react.message.guild.channels.create("tech-" + user.username, { 
-                            type:'text',
-                            parent:category
-                        });
-                        security.permsStaff(channelTech,'Administrateur',user);
-                        security.permsStaff(channelTech,'everyone',user);
-                        security.permsStaff(channelTech,'1' + user.username,user);
-                        /*security.permsStaff(channel,'💻 ⥽ Administrateur');
-                        security.permsStaff(channel,'📘 ⥽ S-Modérateur');
-                        security.permsStaff(channel,'📘 ⥽ Modérateur');
-                        security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
-                        
-                        channelTech.send(`${user} Votre ticket a bien été créé.\nMotif : Problème technique.`);
-                        break;
-                    case "🔴":
-                        const channelStaff = await react.message.guild.channels.create("staff-" + user.username, { 
-                            type:'text',
-                            parent:category
-                        });
-                        security.permsStaff(channelStaff,'Administrateur',user);
-                        security.permsStaff(channelStaff,'everyone',user);
-                        security.permsStaff(channelStaff,'1' + user.username,user);
-                        /*security.permsStaff(channel,'💻 ⥽ Administrateur');
-                        security.permsStaff(channel,'📘 ⥽ S-Modérateur');
-                        security.permsStaff(channel,'📘 ⥽ Modérateur');
-                        security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
-                        
-                        channelStaff.send(`${user} Votre ticket a bien été créé.\nMotif : Problème avec un staff.`);
-                        break;
-                    default:
-                        console.log(`Mauvais choix de ticket de ${user}`);
-                        return;
-                }
+                            channelMembre.send(`${user} Votre ticket a bien été créé.\nMotif : Problème avec un membre.`);
+                            break;
+                        case "❗":
+                            const channelTech = await react.message.guild.channels.create("tech-" + user.username, { 
+                                type:'text',
+                                parent:category
+                            });
+                            security.permsStaff(channelTech,'Administrateur',user);
+                            security.permsStaff(channelTech,'everyone',user);
+                            security.permsStaff(channelTech,'1' + user.username,user);
+                            /*security.permsStaff(channel,'💻 ⥽ Administrateur');
+                            security.permsStaff(channel,'📘 ⥽ S-Modérateur');
+                            security.permsStaff(channel,'📘 ⥽ Modérateur');
+                            security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
+                            
+                            channelTech.send(`${user} Votre ticket a bien été créé.\nMotif : Problème technique.`);
+                            break;
+                        case "🔴":
+                            const channelStaff = await react.message.guild.channels.create("staff-" + user.username, { 
+                                type:'text',
+                                parent:category
+                            });
+                            security.permsStaff(channelStaff,'Administrateur',user);
+                            security.permsStaff(channelStaff,'everyone',user);
+                            security.permsStaff(channelStaff,'1' + user.username,user);
+                            /*security.permsStaff(channel,'💻 ⥽ Administrateur');
+                            security.permsStaff(channel,'📘 ⥽ S-Modérateur');
+                            security.permsStaff(channel,'📘 ⥽ Modérateur');
+                            security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
+                            
+                            channelStaff.send(`${user} Votre ticket a bien été créé.\nMotif : Problème avec un staff.`);
+                            break;
+                        default:
+                            console.log(`Mauvais choix de ticket de ${user}`);
+                            return;
+                    }
+                } 
+            }       
         })
     },
 }

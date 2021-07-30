@@ -30,7 +30,6 @@ module.exports = {
     description:'Met les perms à toute l\'équipe du staff',
     permsStaff: function(channel,roleStaff,usr)
     {
-
         if(roleStaff === 'everyone') 
         {
             channel.updateOverwrite(

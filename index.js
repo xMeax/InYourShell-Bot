@@ -80,6 +80,7 @@ client.on("message", msg => {
             logs.serverInfos(Discord,msg);
             break;
         case "setupticket":
+            if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
             tickets.setupTicket(Discord,msg);
             break;
         default:
