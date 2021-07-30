@@ -15,7 +15,7 @@ const tickets = require('./commands/tickets.js');
 //Toutes les actions à faire quand le bot se connecte
 client.on("ready", function () {
     console.log("Mon BOT est Connecté");
-    client.user.setActivity(".gg/inyourshell", {type:'WATCHING'});
+    client.user.setActivity(".gg/inyourshell", { type:'WATCHING' });
 })
 
 // Gestion des évènements

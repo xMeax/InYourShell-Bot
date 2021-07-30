@@ -28,18 +28,18 @@ module.exports = {
 
     name:'Perm staff',
     description:'Met les perms à toute l\'équipe du staff',
-    permsStaff: function(channel,roleStaff)
+    permsStaff: function(channel,roleStaff,usr)
     {
+
         if(roleStaff === 'everyone') 
         {
             channel.updateOverwrite(
                 channel.guild.roles.everyone, 
                 { VIEW_CHANNEL: false, SEND_MESSAGES: false }
             )
-        }else if(roleStaff.match('1')){
-            const user = roleStaff.slice(1);
+        }else if(roleStaff.match('1')){            
             channel.updateOverwrite(
-                channel.guild.users.get('name',user),
+                usr,
                 { VIEW_CHANNEL: true, SEND_MESSAGES: true }
             );
         }else{
