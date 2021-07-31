@@ -41,7 +41,7 @@ Différentes catégories :
 
     name:'React',
     description:'Création des channels pour les tickets correspondant',
-    reactTickets: async function(client,Discord)
+    reactTickets: function(client,Discord)
     {
         client.on("messageReactionAdd", async (react, user) => {
             if(react.message.channel.name === '📄・tickets')
@@ -51,9 +51,9 @@ Différentes catégories :
 
                 if(!category) this.setupTicket(Discord,user)
 
-                if(await !react.message.guild.channels.cache.find(channel => channel.name === "membre-" + username)
-                && await !react.message.guild.channels.cache.find(channel => channel.name === "tech-" + username)
-                && await !react.message.guild.channels.cache.find(channel => channel.name === "staff-" + username))
+                if(!react.message.guild.channels.cache.find(channel => channel.name === "membre-" + username)
+                && !react.message.guild.channels.cache.find(channel => channel.name === "tech-" + username)
+                && !react.message.guild.channels.cache.find(channel => channel.name === "staff-" + username))
                 {
                     switch(`${react.emoji}`)
                     {

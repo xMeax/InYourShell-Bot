@@ -1,10 +1,11 @@
 module.exports = {
     name:'Embed logsChat',
     description:'Crée des messages embed pour les logs de chat',
-    embed: function(Discord, author, content, logsChat)
+    embed: function(Discord, author, content, logsChat,color)
     {
+        const setColor = color || '#0099ff';
         const embed = new Discord.MessageEmbed()
-            .setColor('#0099ff')
+            .setColor(setColor)
             .setTitle(author)
             .setDescription(content)
             .setTimestamp()

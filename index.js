@@ -21,7 +21,8 @@ client.on("ready", function () {
 // Gestion des évènements
 events.welcome(client,Discord);
 events.leave(client,Discord);
-events.eventMessage(client,Discord); 
+events.eventMessage(client,Discord);
+events.eventVocal(client,Discord);
 tickets.reactTickets(client,Discord);
 
 // Répondre à un message
