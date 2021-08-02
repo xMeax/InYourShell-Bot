@@ -48,4 +48,27 @@ module.exports = {
             );
         }
     },
+
+    name:'Perm user',
+    description:'Permissions pour les users',
+    permTemp: function(channel,roleStaff,usr)
+    {
+        if(roleStaff === 'everyone')
+        {
+            channel.updateOverwrite(
+                channel.guild.roles.everyone,
+                { VIEW_CHANNEL: false, CONNECT: false}
+            );
+        }else if(roleStaff.match('1')){
+            channel.updateOverwrite(
+                usr.member,
+                { MANAGE_CHANNELS: true, MUTE_MEMBERS: true, DEAFEN_MEMBERS: true, MOVE_MEMBERS: true }
+            );
+        }else{
+            channel.updateOverwrite(
+                channel.guild.roles.cache.find(role => role.name === roleStaff),
+                { VIEW_CHANNEL: true, CONNECT: true }
+            );
+        }
+    },
 }

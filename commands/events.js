@@ -1,4 +1,5 @@
 const embed = require('../static/embed.js');
+const security = require('./security.js');
 
 module.exports = {
     name:"Commande invalide",
@@ -66,28 +67,86 @@ module.exports = {
 
             if(newUserChannel && !oldUserChannel)
             {
-                const join = `${oldState.member} a rejoint le vocal ${newUserChannel.name}.`;
+                const join = `${oldState.member} a rejoint le vocal ${newUserChannel}.`;
                 embed.embed(Discord,"A rejoint ⭐",join,logsVocal,'#2dff00');
             }else if(newUserChannel && oldUserChannel && oldState.streaming == false && newState.streaming == false && oldState.selfVideo == false && newState.selfVideo == false){
-                const changed = `${oldState.member} a quitté le vocal ${oldUserChannel.name} et a rejoint ${newUserChannel.name}.`;
+                const changed = `${oldState.member} a quitté le vocal ${oldUserChannel} et a rejoint ${newUserChannel}.`;
                 embed.embed(Discord,"Changement de vocal 🔀 ",changed,logsVocal,'#fc00ff');
             }else if(oldState.streaming == false && newState.streaming == true){
-                const stream = `${oldState.member} a commencé un stream dans ${newUserChannel.name}.`;
+                const stream = `${oldState.member} a commencé un stream dans ${newUserChannel}.`;
                 embed.embed(Discord,"Début de stream ▶",stream,logsVocal,'#0006ff');
             }else if(oldState.streaming == true && newState.streaming == false){
-                const stream = `${oldState.member} a arrêté un stream dans ${newUserChannel.name}.`;
+                const stream = `${oldState.member} a arrêté un stream dans ${newUserChannel}.`;
                 embed.embed(Discord,"Fin de stream ⏹",stream,logsVocal,'#ff9600');      
             }else if(oldState.selfVideo == false && newState.selfVideo == true){
-                const camera = `${oldState.member} a activé sa caméra dans ${newUserChannel.name} `;
+                const camera = `${oldState.member} a activé sa caméra dans ${newUserChannel} `;
                 embed.embed(Discord,"Caméra activée 📸",camera,logsVocal,'#ff007f')
             }else if(oldState.selfVideo == true && newState.selfVideo == false){
-                const camera = `${oldState.member} a désactivé sa caméra dans ${newUserChannel.name} `;
+                const camera = `${oldState.member} a désactivé sa caméra dans ${newUserChannel} `;
                 embed.embed(Discord,"Caméra désactivée 📷",camera,logsVocal,'#9900ff')
             //}else if(oldState.serverMute)
             }else{
-                const left = `${oldState.member} a quitté le vocal ${oldUserChannel.name}.`;
+                const left = `${oldState.member} a quitté le vocal ${oldUserChannel}.`;
                 embed.embed(Discord,"A quitté 🚪",left,logsVocal,'#ff0000');
             }
-        })
+        });
+    },
+
+    name:"Salons temporaires",
+    description:"Crée des salons vocaux temporaires",
+    temporaryVoc: function(client,Discord)
+    {
+        client.on("voiceStateUpdate", async (oldState, newState) => {
+            const newUserChannel = newState.channel;
+            const tempChannel = oldState.guild.channels.cache.find(channel => channel.name === '⏳⋮ Créer');
+            
+            if(newUserChannel == tempChannel)
+            {
+                const category = oldState.guild.channels.cache.find(category => category.name === '📁| Vocaux');
+                const logsVocal = oldState.guild.channels.cache.find(channel => channel.name === '🔊・logs-vocal');
+                const usr = oldState.member.displayName;
+
+                if(!newState.guild.channels.cache.find(channel => channel.name === '⏳⋮ ' + usr))
+                {
+                    const newTemp = await oldState.guild.channels.create('⏳⋮ ' + usr, {
+                        type:'voice',
+                        parent:category
+                    })
+                    const contentTemp = `${newState.member} vient de créer le salon temporaire ${newTemp}`;
+                    embed.embed(Discord,'A créé un vocal 🛃',contentTemp,logsVocal,'#00ff87');
+                    
+                    security.permTemp(newTemp,'everyone',newState);
+                    security.permTemp(newTemp,'1' + newState.member,newState);
+                    security.permTemp(newTemp,'Administrateur',newState);
+                    /*security.permTemp(newTemp,'💻 ⥽ Administrateur',newState);
+                    security.permTemp(newTemp,'📘 ⥽ S-Modérateur',newState);
+                    security.permTemp(newTemp,'📘 ⥽ Modérateur',newState);
+                    security.permTemp(newTemp,'📘 ⥽ Modérateur test',newState);
+                    security.permTemp(newTemp,'🐸 ⥽ Aker',newState);
+                    security.permTemp(newTemp,'💊 ⥽ Matrixé',newState);
+                    security.permTemp(newTemp,'🥇 ⥽ Preau',newState);
+                    security.permTemp(newTemp,'🥈 ⥽ Confirmé',newState);
+                    security.permTemp(newTemp,'🥉 ⥽ Avancé',newState);
+                    security.permTemp(newTemp,'🐱 ⥽ Noob',newState);
+                    security.permTemp(newTemp,'👾 ⥽ Membre',newState);*/
+                    
+                    await oldState.member.voice.setChannel(newTemp);
+                }else{
+                    const newTemp = oldState.guild.channels.cache.find(channel => channel.name === '⏳⋮ ' + usr);
+                    oldState.member.voice.setChannel(newTemp);
+                }
+
+            }
+        });
+
+        client.on('voiceStateUpdate', (oldState, newState) => {
+            const channel = oldState.guild.channels.cache.find(channel => channel.name.match('⏳⋮ ') && channel.name !== '⏳⋮ Créer');
+            
+            if (oldState.channel === channel && channel.members.size === 0) {
+                oldState.channel.delete();
+            }
+        });
+            
+        //});
     },
 }
