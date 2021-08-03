@@ -62,6 +62,33 @@ module.exports = {
             //Nitro boost, propriétaire, date de création
             .setTimestamp()
 
-        msg.channel.send(embed)
+        msg.channel.send(embed);
+    },
+
+    name:'Count discord',
+    description:'Compteur du nombre d\'utilisateurs discord',
+    countDiscord: async function(msg)
+    {
+        const category = msg.guild.channels.cache.find(channel => channel.name === '💻| Stats');
+
+        if(category && !msg.guild.channels.cache.find(channel => channel.name.match('🌍⋮ Membres :')))
+        {
+            const channel = await msg.guild.channels.create('🌍⋮ Membres : ', {
+                type:'voice',
+                parent:category
+            });
+
+            channel.updateOverwrite(
+                channel.guild.roles.everyone,
+                { VIEW_CHANNEL: true, CONNECT: false }
+            );
+
+            channel.updateOverwrite(
+                msg.guild.roles.cache.find(role => role.name.match('Administrateur')),
+                { MANAGE_CHANNELS: true }
+            );
+        }else if(!category){
+            await msg.guild.channels.create('💻| Stats', { type:'category' })
+        }
     },
 }

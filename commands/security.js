@@ -20,7 +20,7 @@ module.exports = {
 
     name:'warn',
     description:'Cette fonction permet de warn un utilisateur',
-    warn: function(author,msg)
+    warn: function(msg)
     {
         //A continuer -> sauvegarde des warns
         msg.channel.send('L\'utilisateur ' + author.username + ' a pris un avertissement.');

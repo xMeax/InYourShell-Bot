@@ -101,13 +101,13 @@ Différentes catégories :
                             security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
                             
                             channelStaff.send(`${user} Votre ticket a bien été créé.\nMotif : Problème avec un staff.`);
-                            break;
-                        default:
-                            console.log(`Mauvais choix de ticket de ${user}`);
-                            return;
-                    }
-                } 
-            }       
-        })
-    },
-}
+                                break;
+                            default:
+                                console.log(`Mauvais choix de ticket de ${user}`);
+                                return;
+                        }
+                    } 
+                }       
+            })
+        },
+    }

@@ -8,9 +8,9 @@ const config = require('./config.json');
 const moderation = require('./commands/moderation');
 const roles = require('./commands/roles.js');
 const logs = require('./commands/logs.js');
-//const security = require('./commands/security.js');
 const events = require('./commands/events.js');
 const tickets = require('./commands/tickets.js');
+const security = require('./commands/security');
 
 //Toutes les actions à faire quand le bot se connecte
 client.on("ready", function () {
@@ -84,6 +84,10 @@ client.on("message", msg => {
         case "setupticket":
             if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
             tickets.setupTicket(Discord,msg);
+            break;
+        case "countdiscord":
+            if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
+            logs.countDiscord(msg);
             break;
         default:
             msg.channel.send("Taper !help pour la liste des commandes !");

@@ -13,25 +13,29 @@ module.exports = {
     description:"Accueille les nouveaux arrivants",
     welcome: function(client,Discord)
     {
-        client.on("guildMemberAdd", member => {
+        client.on("guildMemberAdd", async member => {
             const arrivees = member.guild.channels.cache.find(channel => channel.name === '✅・arrivées');
+            const count = member.guild.channels.cache.find(channel => channel.name.match('🌍⋮ Membres :'));
             const content = `L'utilisateur ${member} vient de rejoindre le serveur !`;
             const color = '#2aff00'; 
 
             embed.embedWelcLeav(Discord,content,color,arrivees);
-        })
+            count.setName('🌍⋮ Membres : ' + await member.guild.members.fetch().then(async(member) => member.filter(m => !m.user.bot).size));
+        })  
     },
 
     name:"Bye bye",
     description:"Prévient du départ des membres",
     leave: function(client,Discord)
     {
-        client.on("guildMemberRemove", member => {
+        client.on("guildMemberRemove", async member => {
             const departs = member.guild.channels.cache.find(channel => channel.name === '👋・départs');
+            const count = member.guild.channels.cache.find(channel => channel.name.match('🌍⋮ Membres :'));
             const content = `L'utilisateur ${member} vient de quitter le serveur !`;
             const color = '#ff0000';
 
             embed.embedWelcLeav(Discord,content,color,departs);
+            count.setName('🌍⋮ Membres : ' + await member.guild.members.fetch().then(async(member) => member.filter(m => !m.user.bot).size));
         })
     },
 
@@ -146,7 +150,5 @@ module.exports = {
                 oldState.channel.delete();
             }
         });
-            
-        //});
     },
 }
