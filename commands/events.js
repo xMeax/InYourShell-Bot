@@ -88,7 +88,6 @@ module.exports = {
             }else if(oldState.selfVideo == true && newState.selfVideo == false){
                 const camera = `${oldState.member} a désactivé sa caméra dans ${newUserChannel} `;
                 embed.embed(Discord,"Caméra désactivée 📷",camera,logsVocal,'#9900ff')
-            //}else if(oldState.serverMute)
             }else{
                 const left = `${oldState.member} a quitté le vocal ${oldUserChannel}.`;
                 embed.embed(Discord,"A quitté 🚪",left,logsVocal,'#ff0000');

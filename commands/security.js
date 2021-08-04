@@ -1,21 +1,25 @@
 const config = require('../config.json');
+const embed = require('../static/embed.js');
 
 module.exports = {
     name:'antiLinks',
     description:'Cette commande bloque l\'envoie de liens externes au serveur discord',
-    antiLinks: function(msg)
+    antiLinks: function(client,Discord)
     {
-        const str = msg.content;
-        const regex = "((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)";
-        const reason = 'Lien externe';
-        const author = msg.author;
-        
-        if(str.match(regex))
-        {
-            msg.delete(reason);
-            warn(author,msg);
-            msg.channel.send('Attention, il est interdit d\'envoyer des liens externes dans le channel ' + msg.channel.name + ' !');
-        }
+        client.on("message", msg =>{
+            if(msg.channel !== msg.guild.channels.cache.find(channel => channel.name === '📖・ressources'))
+            {
+                const str = msg.content;
+                const reason = `Pub vers un discord externe non autorisé ! ${msg.author}, vous avez reçu un avertissement. `;
+                
+                if(/discord\.gg\/\w+/g.test(str))
+                {
+                    msg.delete({reason});
+                    //warn(msg);
+                    embed.embed(Discord, 'Anti pub 🔗', reason, msg.channel,'#ff0000');
+                }
+            }
+        })
     },
 
     name:'warn',

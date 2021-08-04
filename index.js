@@ -24,6 +24,7 @@ events.leave(client,Discord);
 events.eventMessage(client,Discord);
 events.eventVocal(client,Discord);
 events.temporaryVoc(client,Discord);
+security.antiLinks(client,Discord);
 tickets.reactTickets(client,Discord);
 
 // Répondre à un message
