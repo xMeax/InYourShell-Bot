@@ -11,6 +11,8 @@ Différentes catégories :
     description:'Setup le message de création de tickets',
     setupTicket: async function(Discord,msg)
     {
+        if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
+    
         const ticket = '📄・tickets';
         const category = msg.guild.channels.cache.find(category => category.name === '📂| Support') || await x.guild.channels.create('📂| Support', { type:'category' });
         const ticketsChannel = msg.guild.channels.cache.find(channel => channel.name === ticket) || await msg.guild.channels.create(ticket, { 

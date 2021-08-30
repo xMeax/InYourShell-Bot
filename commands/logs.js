@@ -5,6 +5,8 @@ module.exports = {
     description:'Set up toutes les fonctionnalités du bot',
     fullSetUp: async function(msg)
     {
+        if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
+    
         const category = await msg.guild.channels.create('Administration', { type:'category' });
         
         category.updateOverwrite(await msg.guild.id, {
@@ -69,6 +71,8 @@ module.exports = {
     description:'Compteur du nombre d\'utilisateurs discord',
     countDiscord: async function(msg)
     {
+        if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
+    
         const category = msg.guild.channels.cache.find(channel => channel.name === '💻| Stats');
 
         if(category && !msg.guild.channels.cache.find(channel => channel.name.match('🌍⋮ Membres :')))

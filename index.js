@@ -11,6 +11,7 @@ const logs = require('./commands/logs.js');
 const events = require('./commands/events.js');
 const tickets = require('./commands/tickets.js');
 const security = require('./commands/security');
+const { setupTicket } = require('./commands/tickets.js');
 
 //Toutes les actions à faire quand le bot se connecte
 client.on("ready", function () {
@@ -36,64 +37,25 @@ client.on("message", msg => {
     const args = msg.content.slice(config.prefixCmd.length).trim().split(/ +/);
     // Extraction commande
     const command = args.shift().toLowerCase();
-
+    
     //Commandes utilisateurs
-    switch(command)
-    {
-        case "ping":
-            msg.channel.send("Pong");
-            break;
-        case "kick":
-            if(!msg.member.hasPermission("KICK_MEMBERS")) return events.invalidCommand(msg)
-            moderation.kickUser(msg);
-            break;
-        case "ban":
-            if(!msg.member.hasPermission("BAN_MEMBERS")) return events.invalidCommand(msg)
-            moderation.banUser(msg);
-            break;
-        case "renew":
-            if(!msg.member.hasPermission("MANAGE_CHANNELS")) return events.invalidCommand(msg)
-            moderation.renewChannel(msg);
-            break;
-        case "prefix":
-            if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
-            moderation.newPrefix(msg);
-            break;
-        case "lock":
-            if(!msg.member.hasPermission("MANAGE_CHANNELS")) return events.invalidCommand(msg)
-            moderation.lockChannel(msg);
-            break;
-        case "unlock":
-            if(!msg.member.hasPermission("MANAGE_CHANNELS")) return events.invalidCommand(msg)
-            moderation.unlockChannel(msg);
-            break;
-        case "addrole":
-            if(!msg.member.hasPermission("MANAGE_ROLES")) return events.invalidCommand(msg)
-            roles.addRole(msg);
-            break;
-        case "removerole":
-            if(!msg.member.hasPermission("MANAGE_ROLES")) return events.invalidCommand(msg)
-            roles.removeRole(msg);
-            break;
-        case "fullsetup":
-            if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
-            logs.fullSetUp(msg);
-            break;
-        case "server":
-            logs.serverInfos(Discord,msg);
-            break;
-        case "setupticket":
-            if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
-            tickets.setupTicket(Discord,msg);
-            break;
-        case "countdiscord":
-            if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
-            logs.countDiscord(msg);
-            break;
-        default:
-            msg.channel.send("Taper !help pour la liste des commandes !");
-            break;
-    }
+    const commands = new Map([
+        ['ping', () => msg.channel.send("Pong")],
+        ['kick', () => moderation.kickUser(msg)],
+        ['ban', () => moderation.banUser(msg)],
+        ['renew', () => moderation.renewChannel(msg)],
+        ['prefix', () => moderation.newPrefix(msg)],
+        ['lock', () => moderation.lockChannel(msg)],
+        ['unlock', () => moderation.unlockChannel(msg)],
+        ['addrole', () => roles.addRole(msg)],
+        ['removerole', () => roles.removeRole(msg)],
+        ['fullsetup', () => logs.fullSetUp(msg)],
+        ['server', () => logs.serverInfos(Discord,msg)],
+        ['setupticket', () => tickets.setupTicket(Discord,msg)],
+        ['countdiscord', () => logs.countDiscord(msg)],
+    ]);
+
+    commands.get(command).call();
 })
 
 client.login(config.token);

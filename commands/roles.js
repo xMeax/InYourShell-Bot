@@ -5,6 +5,8 @@ module.exports = {
     description:'Cette commande ajoute un rôle à un utilisateur.',
     addRole: function(msg)
     {
+        if(!msg.member.hasPermission("MANAGE_ROLES")) return events.invalidCommand(msg)
+    
         const member = msg.mentions.users.first();
         const reason = msg.content.split(" ").slice(2).join(' ');
         const newRole = msg.guild.roles.cache.find(role => role.name === reason);
@@ -28,6 +30,8 @@ module.exports = {
     description:'Cette commande supprime un rôle à un utilisateur.',
     removeRole: function(msg)
     {
+        if(!msg.member.hasPermission("MANAGE_ROLES")) return events.invalidCommand(msg)
+    
         const member = msg.mentions.users.first();
         const reason = msg.content.split(" ").slice(2).join(' ');
         const oldRole = msg.guild.roles.cache.find(role => role.name === reason);

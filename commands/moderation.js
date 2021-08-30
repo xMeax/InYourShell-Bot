@@ -1,10 +1,13 @@
 const config = require('../config.json');
+const events = require('./events.js');
 
 module.exports = {
     name:'kick',
     description:'Cette commande kick un utilisateur !',
     kickUser: function(msg)
     {
+        if(!msg.member.hasPermission("KICK_MEMBERS")) return events.invalidCommand(msg)
+
         const member = msg.mentions.users.first();
         if(member){
             let target = msg.guild.members.cache.get(member.id);
@@ -22,6 +25,8 @@ module.exports = {
     description:'Cette commande ban un utilisateur !',
     banUser: function(msg)
     {
+        if(!msg.member.hasPermission("BAN_MEMBERS")) return events.invalidCommand(msg)
+        
         const member = msg.mentions.users.first();
         if(member){
             if (msg.member.roles.highest.comparePositionTo(member.roles.highest) < 1 && msg.author.id !== msg.guild.ownerID)
@@ -44,6 +49,8 @@ module.exports = {
     description:'Cette commande renew un salon !',
     renewChannel: async function(msg)
     {
+        if(!msg.member.hasPermission("MANAGE_CHANNELS")) return events.invalidCommand(msg)
+        
         const oldChannel = msg.channel;
         const newChannel = await msg.channel.clone();
 
@@ -56,6 +63,8 @@ module.exports = {
     //A continuer -> sauvegarder le préfixe
     newPrefix: function(msg)
     {
+        if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
+        
         const param = msg.content.split(" ").slice(1);
         config.prefixCmd = param;
 
@@ -66,6 +75,8 @@ module.exports = {
     description:'Cette commande ferme un channel.',
     lockChannel: function(msg)
     {
+        if(!msg.member.hasPermission("MANAGE_CHANNELS")) return events.invalidCommand(msg)
+    
         const channel = msg.mentions.channels.first() || msg.channel;
         
         channel.updateOverwrite(
@@ -80,6 +91,8 @@ module.exports = {
     description:'Cette commande ouvre un channel.',
     unlockChannel: function(msg)
     {
+        if(!msg.member.hasPermission("MANAGE_CHANNELS")) return events.invalidCommand(msg)
+    
         const channel = msg.mentions.channels.first() || msg.channel;
         
         channel.updateOverwrite(
