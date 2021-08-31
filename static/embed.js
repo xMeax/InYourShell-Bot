@@ -24,4 +24,16 @@ module.exports = {
 
             logsChat.send(embed)
     },
+
+    name:'Embed tickets',
+    description:'Crée des embed pour les tickets',
+    embedTickets: function(Discord, content, color, channel)
+    {
+        const embed = new Discord.MessageEmbed()
+            .setColor(color)
+            .setDescription(content)
+            .setTimestamp()
+
+            channel.send(embed)
+    }
 }

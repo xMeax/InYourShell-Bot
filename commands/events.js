@@ -120,18 +120,16 @@ module.exports = {
                     
                     security.permTemp(newTemp,'everyone',newState);
                     security.permTemp(newTemp,'1' + newState.member,newState);
-                    security.permTemp(newTemp,'Administrateur',newState);
-                    /*security.permTemp(newTemp,'💻 ⥽ Administrateur',newState);
-                    security.permTemp(newTemp,'📘 ⥽ S-Modérateur',newState);
+                    security.permTemp(newTemp,'💻 ⥽ Administrateur',newState);
+                    security.permTemp(newTemp,'📗 ⥽ Responsable',newState);
                     security.permTemp(newTemp,'📘 ⥽ Modérateur',newState);
-                    security.permTemp(newTemp,'📘 ⥽ Modérateur test',newState);
                     security.permTemp(newTemp,'🐸 ⥽ Aker',newState);
                     security.permTemp(newTemp,'💊 ⥽ Matrixé',newState);
                     security.permTemp(newTemp,'🥇 ⥽ Preau',newState);
                     security.permTemp(newTemp,'🥈 ⥽ Confirmé',newState);
                     security.permTemp(newTemp,'🥉 ⥽ Avancé',newState);
                     security.permTemp(newTemp,'🐱 ⥽ Noob',newState);
-                    security.permTemp(newTemp,'👾 ⥽ Membre',newState);*/
+                    security.permTemp(newTemp,'👾 ⥽ Membre',newState);
                     
                     await oldState.member.voice.setChannel(newTemp);
                 }else{

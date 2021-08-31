@@ -1,4 +1,3 @@
-const config = require('../config.json');
 const embed = require('../static/embed.js');
 
 module.exports = {

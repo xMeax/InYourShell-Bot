@@ -1,12 +1,7 @@
 const security = require('./security.js');
+const embed = require('../static/embed.js');
 
 module.exports = {
-/*
-Différentes catégories :
--Social
--Technique
--Staff
-*/
     name:'setupticket',
     description:'Setup le message de création de tickets',
     setupTicket: async function(Discord,msg)
@@ -14,7 +9,7 @@ Différentes catégories :
         if(!msg.member.hasPermission("ADMINISTRATOR")) return events.invalidCommand(msg)
     
         const ticket = '📄・tickets';
-        const category = msg.guild.channels.cache.find(category => category.name === '📂| Support') || await x.guild.channels.create('📂| Support', { type:'category' });
+        const category = msg.guild.channels.cache.find(category => category.name === '📂| Support') || await msg.guild.channels.create('📂| Support', { type:'category' });
         const ticketsChannel = msg.guild.channels.cache.find(channel => channel.name === ticket) || await msg.guild.channels.create(ticket, { 
             type:'text',
             parent:category 
@@ -60,53 +55,53 @@ Différentes catégories :
                     switch(`${react.emoji}`)
                     {
                         case "💥":
+                            const content = `${user} Votre ticket a bien été créé.\nMotif : Problème avec un membre.`
+                            const color = '#258edd';
                             const channelMembre = await react.message.guild.channels.create("membre-" + username, { 
                                 type:'text',
                                 parent:category
                             });
-                            security.permsStaff(channelMembre,'Administrateur',user);
+                            security.permsStaff(channelMembre,'💻 ⥽ Administrateur',user);
+                            security.permsStaff(channelMembre,'📗 ⥽ Responsable',user);
+                            security.permsStaff(channelMembre,'📘 ⥽ Modérateur',user);
                             security.permsStaff(channelMembre,'everyone',user);
                             security.permsStaff(channelMembre,'1' + user.username,user);
-                            /*security.permsStaff(channel,'💻 ⥽ Administrateur');
-                            security.permsStaff(channel,'📘 ⥽ S-Modérateur');
-                            security.permsStaff(channel,'📘 ⥽ Modérateur');
-                            security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
 
-                            channelMembre.send(`${user} Votre ticket a bien été créé.\nMotif : Problème avec un membre.`);
+                            embed.embedTickets(Discord,content,color,channelMembre);
                             break;
                         case "❗":
+                            const content2 = `${user} Votre ticket a bien été créé.\nMotif : Problème technique.`
+                            const color2 = '#258edd';
                             const channelTech = await react.message.guild.channels.create("tech-" + user.username, { 
                                 type:'text',
                                 parent:category
                             });
-                            security.permsStaff(channelTech,'Administrateur',user);
+                            security.permsStaff(channelTech,'💻 ⥽ Administrateur',user);
+                            security.permsStaff(channelTech,'📗 ⥽ Responsable',user);
+                            security.permsStaff(channelTech,'📘 ⥽ Modérateur',user);
                             security.permsStaff(channelTech,'everyone',user);
                             security.permsStaff(channelTech,'1' + user.username,user);
-                            /*security.permsStaff(channel,'💻 ⥽ Administrateur');
-                            security.permsStaff(channel,'📘 ⥽ S-Modérateur');
-                            security.permsStaff(channel,'📘 ⥽ Modérateur');
-                            security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
                             
-                            channelTech.send(`${user} Votre ticket a bien été créé.\nMotif : Problème technique.`);
+                            embed.embedTickets(Discord,content2,color2,channelTech);
                             break;
                         case "🔴":
+                            const content3 = `${user} Votre ticket a bien été créé.\nMotif : Problème avec un staff.`
+                            const color3 = '#258edd';
                             const channelStaff = await react.message.guild.channels.create("staff-" + user.username, { 
                                 type:'text',
                                 parent:category
                             });
-                            security.permsStaff(channelStaff,'Administrateur',user);
+                            security.permsStaff(channelStaff,'💻 ⥽ Administrateur',user);
+                            security.permsStaff(channelStaff,'📗 ⥽ Responsable',user);
+                            security.permsStaff(channelStaff,'📘 ⥽ Modérateur',user);
                             security.permsStaff(channelStaff,'everyone',user);
                             security.permsStaff(channelStaff,'1' + user.username,user);
-                            /*security.permsStaff(channel,'💻 ⥽ Administrateur');
-                            security.permsStaff(channel,'📘 ⥽ S-Modérateur');
-                            security.permsStaff(channel,'📘 ⥽ Modérateur');
-                            security.permsStaff(channel,'📘 ⥽ Modérateur test');*/
                             
-                            channelStaff.send(`${user} Votre ticket a bien été créé.\nMotif : Problème avec un staff.`);
-                                break;
-                            default:
-                                console.log(`Mauvais choix de ticket de ${user}`);
-                                return;
+                            embed.embedTickets(Discord,content3,color3,channelStaff);
+                            break;
+                        default:
+                            console.log(`Mauvais choix de ticket de ${user}`);
+                            return;
                         }
                     } 
                 }       

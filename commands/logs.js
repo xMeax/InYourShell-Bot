@@ -1,5 +1,3 @@
-const config = require('../config.json');
-
 module.exports = {
     name:'Set up logs',
     description:'Set up toutes les fonctionnalités du bot',
@@ -9,38 +7,50 @@ module.exports = {
     
         const category = await msg.guild.channels.create('Administration', { type:'category' });
         
-        category.updateOverwrite(await msg.guild.id, {
+        category.updateOverwrite(
+            msg.guild.roles.everyone, {
             VIEW_CHANNEL: false,
             SEND_MESSAGES: false
         });
-        category.updateOverwrite(await msg.guild.roles.fetch(category.id), {
-            VIEW_CHANNEL: true,
-            SEND_MESSAGES: true
+
+        category.updateOverwrite(
+            msg.guild.roles.cache.find(role => role.name === '💻 ⥽ Administrateur'), {
+            VIEW_CHANNEL: true
+        });
+
+        category.updateOverwrite(
+            msg.guild.roles.cache.find(role => role.name === '📗 ⥽ Responsable'), {
+            VIEW_CHANNEL: true
+        });
+
+        category.updateOverwrite(
+            msg.guild.roles.cache.find(role => role.name === '📘 ⥽ Modérateur'), {
+            VIEW_CHANNEL: true
         });
 
         msg.channel.send(`La nouvelle catégorie est ${category.name}`);
         
-        const logsJoiners = await msg.guild.channels.create('✅・arrivées', { 
+        await msg.guild.channels.create('✅・arrivées', { 
             type:'text',
             parent:category
         });
 
-        const logsLeavers = await msg.guild.channels.create('👋・départs', {
+        await msg.guild.channels.create('👋・départs', {
             type:'text',
             parent:category
         });
 
-        const logsChat = await msg.guild.channels.create('💬・logs-chat', {
+        await msg.guild.channels.create('💬・logs-chat', {
             type:'text',
             parent:category
         });
 
-        const logsVoice = await msg.guild.channels.create('🔊・logs-vocal', {
+        await msg.guild.channels.create('🔊・logs-vocal', {
             type:'text',
             parent:category
         });
 
-        const logsKickBan = await msg.guild.channels.create('💣・kick-ban', {
+        await msg.guild.channels.create('💣・kick-ban', {
             type:'text',
             parent:category
         });
@@ -88,7 +98,7 @@ module.exports = {
             );
 
             channel.updateOverwrite(
-                msg.guild.roles.cache.find(role => role.name.match('Administrateur')),
+                msg.guild.roles.cache.find(role => role.name.match('💻 ⥽ Administrateur')),
                 { MANAGE_CHANNELS: true }
             );
         }else if(!category){
